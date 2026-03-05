@@ -5,6 +5,7 @@
 ## Стек технологий
 - ASP.NET Core 9
 - In-memory хранилище (ConcurrentDictionary)
+- Postman
 ## 🚀 Запуск проекта
 
 ### 📥 Установка
