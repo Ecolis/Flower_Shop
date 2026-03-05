@@ -33,5 +33,25 @@ namespace Flower_Shop.Controllers
 
             return Ok(flower);
         }
+
+        [HttpPost]
+        public IActionResult Create([FromBody] CreateFlowerDto newFlower)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var flower = new Flower
+            {
+                Name = newFlower.Name,
+                Price = newFlower.Price,
+                Quantity = newFlower.Quantity
+            };
+
+            var createdFlower = _repo.Add(flower);
+
+            return CreatedAtAction(nameof(GetById), new { id = createdFlower.Id }, createdFlower);
+        }
     }
 }
