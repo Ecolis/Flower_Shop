@@ -12,8 +12,13 @@
 git clone https://github.com/your-username/your-repo.git
 cd your-repo
 ```
+▶️ **Запуск**
+```bash
+dotnet run
+```
+🌐 **Проверка**
 
-
+https://localhost:7189/api/flowers - Должно вывести json файл с цветами. Если вывдит, то отлично, программа работает и можно ее тестировать.
 
 ## Архитектура решения
 
