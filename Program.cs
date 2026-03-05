@@ -1,3 +1,4 @@
+using Flower_Shop.Middleware;
 using Flower_Shop.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,6 +21,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseMiddleware<ErrorHandlingMiddleware>(); 
 
 app.UseAuthorization();
 
