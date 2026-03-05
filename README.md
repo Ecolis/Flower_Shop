@@ -9,8 +9,8 @@
 
 ### 📥 Установка
 ```bash
-git clone https://github.com/your-username/your-repo.git
-cd your-repo
+git clone https://github.com/Ecolis/Flower_Shop.git
+cd Flower_Shop
 ```
 ▶️ **Запуск**
 ```bash
@@ -50,4 +50,56 @@ public class Flower
 | GET   | `/api/flowers`      | Получить все цветы    |
 | GET   | `/api/flowers/{id}` | Получить цветок по ID |
 | POST  | `/api/flowers`      | Добавить новый цветок |## Эндпоинты API
+
+
+## Пример POST запроса
+
+```json
+{
+    "name": "Орхидея",
+    "price": 500,
+    "quantity": 3
+}
+```
+
+## Валидация
+
+- **Название**: обязательно, от 2 до 100 символов
+- **Цена**: обязательна, больше 0
+- **Количество**: обязательно, неотрицательное
+
+## Формат ошибок
+
+```json
+{
+    "statusCode": 404,
+    "message": "Цветок с ID 999 не найден",
+    "requestId": "0HNJQVGIKC0II:00000001"
+}
+```
+## Проверка работоспособности через Postman
+
+### GET все цветы
+- **Method:** GET
+- **URL:** https://localhost:7189/api/flowers
+
+### GET по ID
+- **Method:** GET
+- **URL:** https://localhost:7189/api/flowers/1
+
+### POST новый цветок
+- **Method:** POST
+- **URL:** https://localhost:7189/api/flowers
+- **Headers:**
+```text
+Content-Type: application/json
+```
+- **Body (raw JSON):**
+```json
+{
+    "name": "Орхидея",
+    "price": 500,
+    "quantity": 3
+}
+```
 
