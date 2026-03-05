@@ -21,8 +21,11 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+// 1. Логирование (должно быть первым)
+app.UseMiddleware<RequestLoggingMiddleware>();
 
-app.UseMiddleware<ErrorHandlingMiddleware>(); 
+// 2. Обработка ошибок
+app.UseMiddleware<ErrorHandlingMiddleware>();
 
 app.UseAuthorization();
 

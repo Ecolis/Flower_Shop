@@ -16,20 +16,21 @@ namespace Flower_Shop.Middleware
 
         public async Task InvokeAsync(HttpContext context)
         {
-            // Получаем или создаем RequestId
             var requestId = context.TraceIdentifier;
 
             try
             {
-                // Передаем запрос дальше по конвейеру
                 await _next(context);
+
+                // Обрабатываем ошибки валидации (статус 400)
+                if (context.Response.StatusCode == StatusCodes.Status400BadRequest && !context.Response.HasStarted)
+                {
+                    await HandleValidationErrorAsync(context, requestId);
+                }
             }
             catch (Exception ex)
             {
-                // Логируем ошибку с RequestId
                 _logger.LogError(ex, "Ошибка при обработке запроса {RequestId}", requestId);
-
-                // Отправляем клиенту красивый ответ
                 await HandleExceptionAsync(context, requestId, ex);
             }
         }
@@ -42,7 +43,23 @@ namespace Flower_Shop.Middleware
             var errorDetails = new ErrorDetails
             {
                 StatusCode = context.Response.StatusCode,
-                Message = "Внутренняя ошибка сервера", // Не показываем детали пользователю
+                Message = "Внутренняя ошибка сервера",
+                RequestId = requestId
+            };
+
+            var jsonResponse = JsonSerializer.Serialize(errorDetails);
+            await context.Response.WriteAsync(jsonResponse);
+        }
+
+        // 👇 ВОТ ЭТОТ МЕТОД БЫЛ ПОТЕРЯН - ДОБАВЛЯЕМ
+        private static async Task HandleValidationErrorAsync(HttpContext context, string requestId)
+        {
+            context.Response.ContentType = "application/json";
+
+            var errorDetails = new ErrorDetails
+            {
+                StatusCode = 400,
+                Message = "Ошибка валидации данных",
                 RequestId = requestId
             };
 
